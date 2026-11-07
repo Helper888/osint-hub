@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="OSINT Hub — каталог инструментов и сайтов для поиска информации из открытых источников.">
+<title>OSINT Hub — Инструменты для поиска</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛰️</text></svg>">
+<style>
+  :root {
+    --bg: #0a0f0a;
+    --panel: #10160f;
+    --border: #1e2b1e;
+    --green: #39ff88;
+    --green-dim: #1f7a4d;
+    --text: #c9d6c9;
+    --muted: #6d7f6d;
+    --warn: #ffb84d;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Consolas', 'Courier New', monospace;
+    line-height: 1.6;
+  }
+  a { color: var(--green); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  /* HEADER */
+  header {
+    position: sticky; top: 0; z-index: 10;
+    background: rgba(10, 15, 10, 0.92);
+    border-bottom: 1px solid var(--border);
+    backdrop-filter: blur(6px);
+  }
+  .header-inner {
+    max-width: 1000px; margin: 0 auto; padding: 14px 20px;
+    display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap;
+  }
+  .logo { color: var(--green); font-weight: bold; font-size: 18px; }
+  .logo::before { content: "> "; color: var(--green-dim); }
+  nav { display: flex; gap: 18px; flex-wrap: wrap; }
+  nav a { color: var(--muted); font-size: 14px; }
+  nav a:hover { color: var(--green); }
+
+  /* MAIN */
+  main { max-width: 1000px; margin: 0 auto; padding: 40px 20px 60px; }
+  h1 { color: var(--green); font-size: 30px; margin-bottom: 8px; }
+  .subtitle { color: var(--muted); margin-bottom: 24px; }
+  h2 {
+    color: var(--green); font-size: 22px;
+    margin: 48px 0 18px;
+    border-left: 3px solid var(--green-dim);
+    padding-left: 12px;
+  }
+
+  /* TERMINAL LOG */
+  .term {
+    background: var(--panel); border: 1px solid var(--border);
+    border-radius: 8px; padding: 14px 18px; margin-bottom: 36px;
+    font-size: 13px; color: var(--muted);
+  }
+  .term .cmd { color: var(--green); }
+  .term .ok { color: var(--green-dim); }
+  .cursor { display: inline-block; width: 8px; height: 14px; background: var(--green); animation: blink 1s steps(1) infinite; vertical-align: -2px; }
+  @keyframes blink { 50% { opacity: 0; } }
+
+  /* TOOL CARDS */
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 16px; }
+  .card {
+    background: var(--panel); border: 1px solid var(--border);
+    border-radius: 10px; padding: 20px;
+    transition: transform .15s ease, border-color .15s ease, box-shadow .15s ease;
+  }
+  .card:hover {
+    transform: translateY(-3px);
+    border-color: var(--green-dim);
+    box-shadow: 0 0 18px rgba(57, 255, 136, 0.12);
+  }
+  .card-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; }
+  .card h3 { color: var(--green); font-size: 17px; margin-bottom: 8px; }
+  .card p { color: var(--muted); font-size: 13px; margin-bottom: 14px; }
+  .badge {
+    font-size: 10px; letter-spacing: 1px; text-transform: uppercase;
+    padding: 3px 8px; border-radius: 4px; border: 1px solid var(--green-dim);
+    color: var(--green); white-space: nowrap;
+  }
+  .badge.cli { color: var(--warn); border-color: var(--warn); }
+  .btn {
+    display: inline-block; padding: 8px 16px; border: 1px solid var(--green-dim);
+    border-radius: 6px; color: var(--green); font-size: 13px;
+    transition: background .15s ease;
+  }
+  .btn:hover { background: rgba(57, 255, 136, 0.08); text-decoration: none; }
+
+  /* SITES LIST */
+  .site {
+    background: var(--panel); border: 1px solid var(--border);
+    border-radius: 8px; padding: 14px 18px; margin-bottom: 10px;
+    display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap;
+    transition: border-color .15s ease;
+  }
+  .site:hover { border-color: var(--green-dim); }
+  .site a { font-size: 15px; word-break: break-all; }
+  .site .desc { color: var(--muted); font-size: 13px; width: 100%; }
+  .tag {
+    font-size: 10px; text-transform: uppercase; letter-spacing: 1px;
+    padding: 3px 8px; border-radius: 4px; border: 1px solid var(--green-dim); color: var(--green);
+  }
+
+  /* ABOUT / WARNING */
+  .panel {
+    background: var(--panel); border: 1px solid var(--border);
+    border-radius: 10px; padding: 22px; margin-top: 16px;
+    font-size: 14px; color: var(--text);
+  }
+  .warning { border-color: #4d3a1f; }
+  .warning h3 { color: var(--warn); margin-bottom: 10px; font-size: 16px; }
+  .warning p { margin-bottom: 8px; color: var(--muted); }
+  .panel p { margin-bottom: 10px; }
+
+  /* FOOTER */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 24px 20px; text-align: center;
+    color: var(--muted); font-size: 13px;
+  }
+  .status-dot { color: var(--green); }
+  .status-dot::before { content: "● "; }
+
+  /* MODAL */
+  .modal-backdrop {
+    display: none; position: fixed; inset: 0;
+    background: rgba(0, 0, 0, 0.7); z-index: 50;
+    align-items: center; justify-content: center; padding: 20px;
+  }
+  .modal-backdrop.open { display: flex; }
+  .modal {
+    background: var(--panel); border: 1px solid var(--green-dim);
+    border-radius: 10px; max-width: 420px; width: 100%; padding: 24px;
+    position: relative;
+  }
+  .modal h3 { color: var(--green); margin-bottom: 14px; }
+  .modal p { color: var(--muted); font-size: 14px; margin-bottom: 12px; }
+  .modal-close {
+    position: absolute; top: 10px; right: 14px;
+    background: none; border: none; color: var(--muted); font-size: 20px; cursor: pointer;
+  }
+  .modal-close:hover { color: var(--green); }
+  .modal .btn { display: block; text-align: center; }
+</style>
+</head>
+<body>
+
+<!-- HEADER SECTION -->
+<header>
+  <div class="header-inner">
+    <div class="logo">OSINT_Hub</div>
+    <nav>
+      <a href="#tools">Инструменты</a>
+      <a href="#sites">Сайты</a>
+      <a href="#extra">Доп. Инструменты</a>
+      <a href="#about">О проекте</a>
+      <a href="#" onclick="openModal(); return false;">Написать в поддержку</a>
+    </nav>
+  </div>
+</header>
+<!-- END HEADER SECTION -->
+
+<!-- MAIN SECTION -->
+<main>
+
+  <h1>Добро пожаловать</h1>
+  <p class="subtitle">Добро пожаловать в OSINT Hub — здесь собраны инструменты и сайты для поиска информации из открытых источников.</p>
+
+  <div class="term">
+    <div><span class="cmd">user@osint-hub:~$</span> ./initiate_scan --status=ACTIVE_</div>
+    <div><span class="ok">[OK]</span> загрузка каталога инструментов... 8 найдено</div>
+    <div><span class="ok">[OK]</span> подключение баз сайтов... 5 доступно</div>
+    <div><span class="cmd">user@osint-hub:~$</span> <span class="cursor"></span></div>
+  </div>
+
+  <h2 id="tools">Доступные инструменты</h2>
+  <div class="grid">
+    <div class="card">
+      <div class="card-top">
+        <h3>🕸️ Maltego Community Edition</h3>
+        <span class="badge">GUI</span>
+      </div>
+      <p>Визуализация связей и графов для OSINT-расследований.</p>
+      <a class="btn" href="https://www.maltego.com/downloads/" target="_blank" rel="noopener">Скачать</a>
+    </div>
+    <div class="card">
+      <div class="card-top">
+        <h3>📧 theHarvester</h3>
+        <span class="badge cli">CLI</span>
+      </div>
+      <p>Сбор данных об организации: email, поддомены, хосты.</p>
+      <a class="btn" href="https://github.com/laramies/theHarvester" target="_blank" rel="noopener">Скачать</a>
+    </div>
+    <div class="card">
+      <div class="card-top">
+        <h3>📡 Shodan CLI</h3>
+        <span class="badge cli">CLI</span>
+      </div>
+      <p>Поиск устройств и сервисов, подключённых к интернету, через командную строку.</p>
+      <a class="btn" href="https://cli.shodan.io/" target="_blank" rel="noopener">Скачать</a>
+    </div>
+    <div class="card">
+      <div class="card-top">
+        <h3>🕷️ SpiderFoot</h3>
+        <span class="badge">OPEN-SOURCE</span>
+      </div>
+      <p>Автоматизированный сбор разведданных из открытых источников.</p>
+      <a class="btn" href="https://github.com/smicallef/spiderfoot" target="_blank" rel="noopener">Скачать</a>
+    </div>
+  </div>
+
+  <h2 id="extra">Доп. Инструменты</h2>
+  <div class="grid">
+    <div class="card">
+      <div class="card-top">
+        <h3>🔍 Sherlock</h3>
+        <span class="badge cli">CLI</span>
+      </div>
+      <p>Ищет аккаунт с заданным никнеймом сразу на сотнях сайтов. Подходит для проверки, где зарегистрировано имя.</p>
+      <a class="btn" href="https://github.com/sherlock-project/sherlock" target="_blank" rel="noopener">Скачать</a>
+    </div>
+    <div class="card">
+      <div class="card-top">
+        <h3>🧭 Recon-ng</h3>
+        <span class="badge cli">CLI</span>
+      </div>
+      <p>Модульный фреймворк для сбора данных о доменах и организациях. Работает как Metasploit, но для открытых данных.</p>
+      <a class="btn" href="https://github.com/lanmaster53/recon-ng" target="_blank" rel="noopener">Скачать</a>
+    </div>
+    <div class="card">
+      <div class="card-top">
+        <h3>🗺️ OWASP Amass</h3>
+        <span class="badge cli">CLI</span>
+      </div>
+      <p>Составляет карту поддоменов и внешней инфраструктуры компании по открытым источникам.</p>
+      <a class="btn" href="https://github.com/owasp-amass/amass" target="_blank" rel="noopener">Скачать</a>
+    </div>
+    <div class="card">
+      <div class="card-top">
+        <h3>📮 Holehe</h3>
+        <span class="badge cli">CLI</span>
+      </div>
+      <p>Проверяет, зарегистрирован ли email на популярных сайтах. Полезно для разведки по почте.</p>
+      <a class="btn" href="https://github.com/megadose/holehe" target="_blank" rel="noopener">Скачать</a>
+    </div>
+    <div class="card">
+      <div class="card-top">
+        <h3>🖼️ ExifTool</h3>
+        <span class="badge cli">CLI</span>
+      </div>
+      <p>Читает метаданные изображений и документов: геолокацию, модель камеры, дату съёмки и многое другое.</p>
+      <a class="btn" href="https://exiftool.org/" target="_blank" rel="noopener">Скачать</a>
+    </div>
+    <div class="card">
+      <div class="card-top">
+        <h3>🛰️ Nmap</h3>
+        <span class="badge cli">CLI</span>
+      </div>
+      <p>Классический сканер сетей и портов. Базовый инструмент для проверки инфраструктуры.</p>
+      <a class="btn" href="https://nmap.org/download.html" target="_blank" rel="noopener">Скачать</a>
+    </div>
+    <div class="card">
+      <div class="card-top">
+        <h3>🔎 Google Dorks (GHDB)</h3>
+        <span class="badge">БАЗА</span>
+      </div>
+      <p>База продвинутых поисковых запросов для Google: находить документы, панельки, скрытые файлы через спецсинтаксис.</p>
+      <a class="btn" href="https://www.exploit-db.com/google-hacking-database" target="_blank" rel="noopener">Открыть</a>
+    </div>
+    <div class="card">
+      <div class="card-top">
+        <h3>🧪 Metagoofil</h3>
+        <span class="badge cli">CLI</span>
+      </div>
+      <p>Находит публичные документы (pdf, docx, xlsx) на сайте организации и вынимает из них имена пользователей и пути.</p>
+      <a class="btn" href="https://github.com/opsdisk/metagoofil" target="_blank" rel="noopener">Скачать</a>
+    </div>
+  </div>
+
+  <h2 id="sites">Сайты</h2>
+  <div class="site">
+    <a href="https://osint-catalog.org" target="_blank" rel="noopener">https://osint-catalog.org</a>
+    <span class="tag">Каталог</span>
+    <span class="desc">Каталог OSINT-инструментов: подборки утилит по категориям.</span>
+  </div>
+  <div class="site">
+    <a href="https://geospy.net" target="_blank" rel="noopener">https://geospy.net</a>
+    <span class="tag">Гео</span>
+    <span class="desc">Определение места по фотографии с помощью нейросети.</span>
+  </div>
+  <div class="site">
+    <a href="https://sudact.ru" target="_blank" rel="noopener">https://sudact.ru</a>
+    <span class="tag">Право</span>
+    <span class="desc">Открытая база судебных решений — поиск судебной информации.</span>
+  </div>
+  <div class="site">
+    <a href="https://osintframework.com" target="_blank" rel="noopener">https://osintframework.com</a>
+    <span class="tag">Каталог</span>
+    <span class="desc">Дерево OSINT-методов и сервисов по типам собираемых данных.</span>
+  </div>
+  <div class="site">
+    <a href="https://shodan.io" target="_blank" rel="noopener">https://shodan.io</a>
+    <span class="tag">Инструмент</span>
+    <span class="desc">Поисковик по устройствам и сервисам, подключённым к интернету. Для опытных.</span>
+  </div>
+
+  <h2 id="about">О проекте</h2>
+  <div class="panel">
+    <p>OSINT Hub — учебный каталог инструментов и сайтов для работы с открытыми источниками (OSINT — Open Source Intelligence). Все ссылки ведут на официальные источники: страницы разработчиков и репозитории.</p>
+    <p>Проект в развитии и будет обновляться. Вопросы и предложения — через кнопку «Написать в поддержку» в меню.</p>
+  </div>
+
+  <h2>⚠ Внимание, пользователи!</h2>
+  <div class="panel warning">
+    <p>Используйте перечисленные инструменты только законно: для проверки собственной инфраструктуры, учебных задач и расследований в рамках права. Самостоятельный сбор данных о людях без их согласия может нарушать закон.</p>
+    <p>Если что-то не работает или есть вопросы — пишите в поддержку через кнопку в меню.</p>
+    <p><b>Мы не несём ответственности за то, что вы будете делать с OSINT-инструментами.</b></p>
+  </div>
+
+</main>
+<!-- END MAIN SECTION -->
+
+<!-- FOOTER SECTION -->
+<footer>
+  <div>© 2026 OSINT Hub. Все ссылки ведут на официальные источники.</div>
+  <div class="status-dot">Система активна</div>
+</footer>
+<!-- END FOOTER SECTION -->
+
+<!-- SUPPORT MODAL -->
+<div class="modal-backdrop" id="modal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">×</button>
+    <h3>Написать в поддержку</h3>
+    <p>Telegram-бот поддержки:</p>
+    <p><b style="color: var(--green);">@osint_hub_support</b></p>
+    <p>Напишите в поддержку по вашим вопросам, ответим как можно скорее.</p>
+    <a class="btn" href="https://t.me/osint_hub_support" target="_blank" rel="noopener">Открыть чат в Telegram</a>
+  </div>
+</div>
+
+<script>
+  function openModal() { document.getElementById('modal').classList.add('open'); }
+  function closeModal() { document.getElementById('modal').classList.remove('open'); }
+  document.getElementById('modal').addEventListener('click', function (e) {
+    if (e.target === this) closeModal();
+  });
+</script>
+
+</body>
+</html>
